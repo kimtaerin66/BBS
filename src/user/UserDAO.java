@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDAO {
-
-
     private Connection conn; //db와 연결
     private PreparedStatement pstmt; //데이터를 어떤식으로 바인딩하는지
     private ResultSet rs; //select 할때 필요, 결과담는용도
@@ -43,4 +41,21 @@ public class UserDAO {
         }
         return -2; //데이터베이스 오류
     }
+
+    public int join(User user){
+        String SQL = "INSERT INTO user VALUES (?, ?, ?, ?, ?)";
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, user.getUserId());
+            pstmt.setString(2, user.getUserPassword());
+            pstmt.setString(3, user.getUserName());
+            pstmt.setString(4, user.getUserGender());
+            pstmt.setString(5, user.getUserEmail());
+            return pstmt.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return -1; //데이터베이스 오류
+    }
+
 }
