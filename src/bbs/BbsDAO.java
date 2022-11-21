@@ -73,7 +73,7 @@ public class BbsDAO {
     //게시판 목록 가져오기
     public ArrayList<Bbs> getList(int pageNumber){
         //삭제가 되지않은 글만 가져오기
-        String SQL = "SELECT * FROM board WHERE bbsId < ? AND bbsAvailable = 1 ORDER BY bbsId DESC LIMIT 10";
+        String SQL = "SELECT * FROM board WHERE BBS_ID < ? AND BBS_AVAILABLE = 1 ORDER BY BBS_ID DESC LIMIT 10";
         ArrayList<Bbs> list = new ArrayList<Bbs>();
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -98,7 +98,7 @@ public class BbsDAO {
 
     //페이지 갯수에따라 다음페이지 버튼 존재여부
     public boolean nextPage(int pageNumber){
-        String SQL = "SELECT * FROM board WHERE bbsId < ? AND bbsAvailable = 1 ORDER BY bbsId DESC LIMIT 10";
+        String SQL = "SELECT * FROM board WHERE BBS_ID < ? AND BBS_AVAILABLE = 1 ORDER BY BBS_ID DESC LIMIT 10;";
         try {
             PreparedStatement pstmt = conn.prepareStatement(SQL);
             pstmt.setInt(1, getNext() - (pageNumber -1) *10);
@@ -110,5 +110,43 @@ public class BbsDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //게시글 상세불러오기
+    public Bbs getBbs(int bbsId){
+        String SQL = "SELECT * FROM board WHERE BBS_ID = ? ;";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, bbsId);
+            rs = pstmt.executeQuery(); //bbs하나가 나왓다면
+            if(rs.next()) {
+                Bbs bbs = new Bbs(); //불러온 bbs에서 get하여 하나씩 대입
+                bbs.setBbsId(rs.getInt(1));
+                bbs.setBbsTitle(rs.getString(2));
+                bbs.setUserId(rs.getString(3));
+                bbs.setBbsDate(rs.getString(4));
+                bbs.setBbsContent(rs.getString(5));
+                bbs.setBbsAvailable(rs.getString(6));
+                return bbs;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //게시글 수정
+    public int update(int bbsId, String bbsTitle, String bbsContent){
+        String SQL = "UPDATE board SET BBS_TITLE = ?, BBS_CONTENT = ? WHERE BBS_ID = ?"; //bbsId 내림차순으로가져와서 +1하면 다음게시물번호
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, bbsTitle);
+            pstmt.setString(2, bbsContent);
+            pstmt.setInt(3, bbsId );
+            return pstmt.executeUpdate(); //성공시 0이상 값 반환
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;//db오류
     }
 }
