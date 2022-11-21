@@ -1,10 +1,9 @@
-
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
 <!doctype html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport"  content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
     <link rel="stylesheet" href="../css/bootstrap.css">
     <title>JSP 게시판 웹사이트</title>
 </head>
@@ -12,8 +11,8 @@
 <nav class="navbar navbar-default">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed"
-        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-        aria-expanded="false">
+                data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false">
             <%--        메뉴바 --%>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -26,14 +25,14 @@
             <li><a href="main.jsp">메인</a></li>
             <li><a href="bbs.jsp">게시판</a></li>
         </ul>
-<%--        오른쪽 메뉴--%>
+        <%--        오른쪽 메뉴--%>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                aria-expanded="false" aria-haspopup="true">접속하기<span class="caret"></span></a>
+                   aria-expanded="false" aria-haspopup="true">접속하기<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li class="active"><a href="login.jsp">로그인</a></li>
-                    <li><a href="join.jsp">회원가입</a></li>
+                    <li><a href="login.jsp">로그인</a></li>
+                    <li class="active"><a href="join.jsp">회원가입</a></li>
                 </ul>
             </li>
         </ul>
