@@ -1,9 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: intellivix
+  User: Kimtaerin
   Date: 2022-11-17
   Time: 오후 3:54
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
 <!doctype html>
@@ -14,8 +13,7 @@
   </head>
   <body>
   <script>
-    //index.html접속시 로그인페이지로 이동
-    location.href = './jsp/login.jsp';
+    location.href = 'jsp/main.jsp';
 
   </script>
   Hello World
