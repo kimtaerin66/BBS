@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class BbsDAO {
     private Connection conn; //db와 연결
@@ -69,4 +70,45 @@ public class BbsDAO {
         return -1;//db오류
     }
 
+    //게시판 목록 가져오기
+    public ArrayList<Bbs> getList(int pageNumber){
+        //삭제가 되지않은 글만 가져오기
+        String SQL = "SELECT * FROM board WHERE bbsId < ? AND bbsAvailable = 1 ORDER BY bbsId DESC LIMIT 10";
+        ArrayList<Bbs> list = new ArrayList<Bbs>();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            //게시글이 5개일때, getNext는 6이되고 한페이지에 전부표현가능
+            pstmt.setInt(1, getNext() - (pageNumber -1) *10);
+            rs = pstmt.executeQuery();
+           while (rs.next()) {
+               Bbs bbs = new Bbs();
+               bbs.setBbsId(rs.getInt(1));
+               bbs.setBbsTitle(rs.getString(2));
+               bbs.setUserId(rs.getString(3));
+               bbs.setBbsDate(rs.getString(4));
+               bbs.setBbsContent(rs.getString(5));
+               bbs.setBbsAvailable(rs.getString(6));
+               list.add(bbs); //리스트에 담아서 리턴
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //페이지 갯수에따라 다음페이지 버튼 존재여부
+    public boolean nextPage(int pageNumber){
+        String SQL = "SELECT * FROM board WHERE bbsId < ? AND bbsAvailable = 1 ORDER BY bbsId DESC LIMIT 10";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, getNext() - (pageNumber -1) *10);
+            rs = pstmt.executeQuery();
+            if(rs.next()) { //결과가 하나라도 존재하면 true
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
